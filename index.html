@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Viking Project</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <header id="game-header">
+      <h1>The Viking Project</h1>
+      <p class="tagline">Pass. Shoot. Survive.</p>
+      <p class="controls-hint">Click a teammate or press <kbd>1</kbd>–<kbd>5</kbd> to pass · Click the goal or press <kbd>Space</kbd> to shoot · <kbd>S</kbd> start · <kbd>P</kbd> pause · <kbd>R</kbd> restart</p>
+    </header>
+    <div id="hud">
+      <div class="hud-panel">
+        <span class="hud-label">Lives</span>
+        <span id="lives-display" class="hud-value lives">♥ ♥ ♥</span>
+      </div>
+      <div class="hud-panel">
+        <span class="hud-label">Level</span>
+        <span id="level-display" class="hud-value">1</span>
+      </div>
+      <div class="hud-panel">
+        <span class="hud-label">Time</span>
+        <span id="timer-display" class="hud-value">0:00.0</span>
+      </div>
+    </div>
+    <div id="game-controls">
+      <button id="btn-start" type="button" class="game-btn game-btn-primary">Start <span class="btn-key">S</span></button>
+      <button id="btn-pause" type="button" class="game-btn" disabled>Pause <span class="btn-key">P</span></button>
+      <button id="btn-restart" type="button" class="game-btn">Restart <span class="btn-key">R</span></button>
+    </div>
+    <div id="canvas-wrap">
+      <canvas id="game-canvas" width="900" height="650"></canvas>
+      <div id="message-overlay" class="hidden">
+        <p id="message-text"></p>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
