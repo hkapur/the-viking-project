@@ -152,6 +152,12 @@ body {
   letter-spacing: 0.15em;
 }
 
+.hud-value.nation {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: #58a6ff;
+}
+
 #canvas-wrap {
   position: relative;
 }
@@ -190,4 +196,123 @@ body {
   background: rgba(22, 27, 34, 0.9);
   border: 2px solid #f85149;
   border-radius: 8px;
+}
+
+/* ─── Leaderboard Modal ─── */
+
+.modal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 32px;
+  width: 400px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content p {
+  color: #8b949e;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.input-group input,
+.input-group select {
+  padding: 10px 12px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #e6edf3;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #58a6ff;
+}
+
+.input-group input {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-group select {
+  width: 160px;
+  text-overflow: ellipsis;
+}
+
+#leaderboard-section h3 {
+  color: #f0f6fc;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+#leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid #30363d;
+  font-size: 0.95rem;
+}
+
+#leaderboard-list li:last-child {
+  border-bottom: none;
+}
+
+#leaderboard-list .lb-rank {
+  color: #8b949e;
+  width: 24px;
+  font-weight: bold;
+}
+
+#leaderboard-list .lb-name {
+  flex: 1;
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+#leaderboard-list .lb-score {
+  color: #58a6ff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }

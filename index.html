@@ -23,6 +23,10 @@
         <span id="level-display" class="hud-value">1</span>
       </div>
       <div class="hud-panel">
+        <span class="hud-label">Nation</span>
+        <span id="nation-display" class="hud-value nation">🇶🇦 Qatar</span>
+      </div>
+      <div class="hud-panel">
         <span class="hud-label">Time</span>
         <span id="timer-display" class="hud-value">0:00.0</span>
       </div>
@@ -31,6 +35,18 @@
       <button id="btn-start" type="button" class="game-btn game-btn-primary">Start <span class="btn-key">S</span></button>
       <button id="btn-pause" type="button" class="game-btn" disabled>Pause <span class="btn-key">P</span></button>
       <button id="btn-restart" type="button" class="game-btn">Restart <span class="btn-key">R</span></button>
+      <select id="level-select" class="game-btn" title="Jump to level (Dev Test)">
+        <option value="1">Round 1</option>
+        <option value="2">Round 2</option>
+        <option value="3">Round 3</option>
+        <option value="4">Round 4</option>
+        <option value="5">Round 5</option>
+        <option value="6">Round 6</option>
+        <option value="7">Round 7</option>
+        <option value="8">Round 8</option>
+        <option value="9">Round 9</option>
+        <option value="10">Round 10</option>
+      </select>
     </div>
     <div id="canvas-wrap">
       <canvas id="game-canvas" width="900" height="650"></canvas>
@@ -38,7 +54,38 @@
         <p id="message-text"></p>
       </div>
     </div>
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="modal-title">World Champion!</h2>
+        
+        <!-- Score Submission -->
+        <div id="submit-section">
+          <p>Submit your score to the global leaderboard.</p>
+          <div class="input-group">
+            <input type="text" id="username-input" placeholder="Your Name" maxlength="15">
+            <select id="country-select">
+            </select>
+          </div>
+          <button id="btn-submit-score" class="game-btn game-btn-primary" style="margin-top: 15px;">Submit Score</button>
+        </div>
+
+        <!-- Leaderboard Display -->
+        <div id="leaderboard-section" class="hidden">
+          <h3>Global Top 10</h3>
+          <ul id="leaderboard-list">
+            <li>Loading...</li>
+          </ul>
+          <button id="btn-close-modal" class="game-btn" style="margin-top: 15px;">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
+  <script src="countries.js"></script>
+  <script src="firebase-env.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
