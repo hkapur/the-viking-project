@@ -14,7 +14,6 @@ const messageText = document.getElementById('message-text');
 const btnStart = document.getElementById('btn-start');
 const btnPause = document.getElementById('btn-pause');
 const btnRestart = document.getElementById('btn-restart');
-const levelSelect = document.getElementById('level-select');
 const leaderboardModal = document.getElementById('leaderboard-modal');
 const modalTitle = document.getElementById('modal-title');
 const btnSubmitScore = document.getElementById('btn-submit-score');
@@ -466,7 +465,6 @@ function restartGame() {
   bgMusic.play().catch(e => console.warn('Audio playback prevented:', e));
   gameState.status = 'playing';
   gameState.level = 1;
-  levelSelect.value = 1;
   gameState.lives = MAX_LIVES;
   gameState.levelTime = 0;
   gameState.totalTime = 0;
@@ -671,7 +669,6 @@ function advanceLevel() {
   }
 
   gameState.level += 1;
-  levelSelect.value = gameState.level;
   applyLevelSettings();
   resetLevelState();
   updateHud();
@@ -1745,35 +1742,6 @@ function init() {
   btnStart.addEventListener('click', startGame);
   btnPause.addEventListener('click', togglePause);
   btnRestart.addEventListener('click', restartGame);
-
-  levelSelect.addEventListener('change', (e) => {
-    const selectedLevel = parseInt(e.target.value, 10);
-    gameState.level = selectedLevel;
-    gameState.status = 'playing';
-    gameState.lives = MAX_LIVES;
-    gameState.levelTime = 0;
-    gameState.hitFlashTimer = 0;
-    gameState.goalFlashTimer = 0;
-    gameState.levelSplashTimer = 0;
-    gameState.enemyDefenders = [];
-    gameState.ballFlight = null;
-    gameState.refereeIntervened = false;
-    confetti.length = 0;
-    leaderboardModal.classList.add('hidden');
-    vikingWinsAudio.pause();
-    winningMusicAudio.pause();
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(err => console.warn('Audio playback prevented:', err));
-
-    applyLevelSettings();
-    resetLevelState();
-    updateHud();
-    hideMessage();
-    updateControlButtons();
-
-    gameState.status = 'levelSplash';
-    gameState.levelSplashTimer = LEVEL_SPLASH_DURATION;
-  });
 
   btnSubmitScore.addEventListener('click', async () => {
     const name = usernameInput.value.trim();
