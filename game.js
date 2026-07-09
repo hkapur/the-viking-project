@@ -12,6 +12,9 @@ const timerDisplay = document.getElementById('timer-display');
 const messageOverlay = document.getElementById('message-overlay');
 const messageText = document.getElementById('message-text');
 const btnStart = document.getElementById('btn-start');
+const btnRules = document.getElementById('btn-rules');
+const rulesModal = document.getElementById('rules-modal');
+const btnCloseRules = document.getElementById('btn-close-rules');
 const btnPause = document.getElementById('btn-pause');
 const btnRestart = document.getElementById('btn-restart');
 const leaderboardModal = document.getElementById('leaderboard-modal');
@@ -248,6 +251,7 @@ const gameState = {
   onFireTimer: 6.0,
   vikingStunTimer: 0,
   carrierHoldTime: 0,
+  consecutivePasses: 0,
 };
 
 let lastTimestamp = 0;
@@ -352,6 +356,7 @@ function resetLevelState() {
   gameState.onFireTimer = 2.0; // Starts at 2 seconds
   gameState.vikingStunTimer = 0;
   gameState.carrierHoldTime = 0;
+  gameState.consecutivePasses = 0;
   resetVikingPosition();
   syncBallToCarrier();
 }
@@ -536,14 +541,14 @@ function calcPassProbability(fromNum, toNum) {
   // Viking Pressure mechanic on the receiver
   const vikingDistToReceiver = Math.hypot(to.x - gameState.viking.x, to.y - gameState.viking.y);
 
-  // Penalty if Viking is within 300 pixels of the receiver (up to -45% drop)
-  const vikingPressure = Math.max(0, 300 - vikingDistToReceiver) / 300 * 45;
+  // Penalty if Viking is within 250 pixels of the receiver (up to -25% drop)
+  const vikingPressure = Math.max(0, 250 - vikingDistToReceiver) / 250 * 25;
 
   // Boost if Viking is far away from the receiver (up to +30% boost)
   const vikingSafetyBoost = Math.max(0, vikingDistToReceiver - 350) / 400 * 30;
 
-  // Chain pass bonus: passing to the immediate next player in the sequence
-  const chainBonus = (toNum === fromNum + 1) ? 15 : 0;
+  // Chain pass bonus: successful passes increase probability
+  const chainBonus = Math.min(30, gameState.consecutivePasses * 10);
 
   // Patience bonus: up to +25% if held for 5 seconds
   const patienceBonus = Math.min(25, gameState.carrierHoldTime * 5);
@@ -558,8 +563,9 @@ function calcShotProbability(carrierNum) {
 
   const baseShot = table[carrierNum] ?? 10;
   const patienceBonus = Math.min(25, gameState.carrierHoldTime * 5);
+  const chainBonus = Math.min(30, gameState.consecutivePasses * 10);
 
-  return Math.round(Math.min(99, baseShot + patienceBonus));
+  return Math.round(Math.min(99, baseShot + patienceBonus + chainBonus));
 }
 
 function probColor(prob) {
@@ -585,7 +591,7 @@ function loseLife(reason) {
     gameState.status = 'gameOver';
     hideMessage();
     updateControlButtons();
-    
+
     // Show Leaderboard Modal after a short delay
     setTimeout(() => {
       modalTitle.textContent = 'Global Leaderboard';
@@ -595,7 +601,7 @@ function loseLife(reason) {
       leaderboardSection.classList.remove('hidden');
       showLeaderboard();
     }, 2000);
-    
+
     return;
   }
 
@@ -655,7 +661,7 @@ function advanceLevel() {
     hideMessage();
     spawnConfetti();
     updateControlButtons();
-    
+
     // Show Leaderboard Modal after a short delay so the user sees the victory screen first
     setTimeout(() => {
       modalTitle.textContent = 'World Champion!';
@@ -664,7 +670,7 @@ function advanceLevel() {
       submitSection.classList.remove('hidden');
       leaderboardSection.classList.add('hidden');
     }, 2000);
-    
+
     return;
   }
 
@@ -710,6 +716,7 @@ function attemptPass(targetNum) {
       onArrive() {
         gameState.ball.carrierId = targetNum;
         gameState.carrierHoldTime = 0;
+        gameState.consecutivePasses++;
         syncBallToCarrier();
         if (targetNum === gameState.onFirePlayerId) {
           gameState.vikingStunTimer = 1.5;
@@ -1740,6 +1747,12 @@ function init() {
   canvas.addEventListener('click', handleCanvasClick);
   window.addEventListener('keydown', handleKeyDown);
   btnStart.addEventListener('click', startGame);
+  btnRules.addEventListener('click', () => {
+    rulesModal.classList.remove('hidden');
+  });
+  btnCloseRules.addEventListener('click', () => {
+    rulesModal.classList.add('hidden');
+  });
   btnPause.addEventListener('click', togglePause);
   btnRestart.addEventListener('click', restartGame);
 
@@ -1748,17 +1761,17 @@ function init() {
     if (!name) return;
     btnSubmitScore.disabled = true;
     btnSubmitScore.textContent = 'Submitting...';
-    
+
     if (window.submitScore) {
       await window.submitScore(name, countrySelect.value, gameState.finalScore, gameState.scoreBreakdown);
     }
-    
+
     // Hide form, show leaderboard
     submitSection.classList.add('hidden');
     leaderboardSection.classList.remove('hidden');
-    
+
     await showLeaderboard();
-    
+
     btnSubmitScore.disabled = false;
     btnSubmitScore.textContent = 'Submit Score';
   });
@@ -1772,11 +1785,11 @@ function init() {
 
 async function showLeaderboard() {
   if (!window.fetchLeaderboard) return;
-  
+
   leaderboardList.innerHTML = '<li>Loading...</li>';
   const scores = await window.fetchLeaderboard();
   leaderboardList.innerHTML = '';
-  
+
   if (scores.length === 0) {
     leaderboardList.innerHTML = '<li>No scores yet!</li>';
   } else {
@@ -1786,7 +1799,7 @@ async function showLeaderboard() {
       if (opt) {
         flagStr = opt.textContent.split(' ')[0];
       }
-      
+
       leaderboardList.innerHTML += `
         <li>
           <span class="lb-rank">#${index + 1}</span>

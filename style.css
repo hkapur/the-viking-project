@@ -47,7 +47,7 @@ body {
   margin-top: 6px;
 }
 
-.controls-hint kbd {
+kbd {
   display: inline-block;
   padding: 1px 5px;
   font-size: 0.7rem;
@@ -61,13 +61,15 @@ body {
 #hud {
   display: flex;
   gap: 16px;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
 }
 
 #game-controls {
   display: flex;
   gap: 12px;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
 }
 
 .game-btn {
@@ -160,6 +162,8 @@ body {
 
 #canvas-wrap {
   position: relative;
+  width: 100%;
+  max-width: 900px;
 }
 
 #game-canvas {
@@ -169,6 +173,9 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   cursor: crosshair;
   background: #1a472a;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 900 / 650;
 }
 
 #message-overlay {

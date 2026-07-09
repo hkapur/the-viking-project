@@ -34,6 +34,7 @@
     </div>
     <div id="game-controls">
       <button id="btn-start" type="button" class="game-btn game-btn-primary">Start <span class="btn-key">S</span></button>
+      <button id="btn-rules" type="button" class="game-btn">Rules</button>
       <button id="btn-pause" type="button" class="game-btn" disabled>Pause <span class="btn-key">P</span></button>
       <button id="btn-restart" type="button" class="game-btn">Restart <span class="btn-key">R</span></button>
     </div>
@@ -43,6 +44,26 @@
         <p id="message-text"></p>
       </div>
     </div>
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal hidden">
+      <div class="modal-content" style="text-align: left;">
+        <h2 style="text-align: center; color: #58a6ff;">How to Play</h2>
+        <ul style="margin-bottom: 24px; color: #8b949e; font-size: 0.95rem; line-height: 1.5; padding-left: 20px;">
+          <li style="margin-bottom: 10px;">Pass the ball by clicking teammates or pressing <kbd>1</kbd>-<kbd>5</kbd> to avoid the Viking.</li>
+          <li style="margin-bottom: 10px;">Enemy defenders decrease your pass and shoot success probabilities.</li>
+          <li style="margin-bottom: 10px;">When a player is "On Fire", their passes and shots have a 100% success rate!</li>
+          <li style="margin-bottom: 10px;">Click the opponent goal or press <kbd>Space</kbd> to shoot and score.</li>
+          <li>Win 10 rounds to become the World Champion!</li>
+        </ul>
+        <p style="text-align: center; margin-bottom: 20px; font-size: 0.9rem;">
+          <a href="https://github.com/hkapur/the-viking-project/blob/main/README.md" target="_blank" style="color: #58a6ff; text-decoration: underline;">Read more about the game here</a>
+        </p>
+        <div style="text-align: center;">
+          <button id="btn-close-rules" class="game-btn game-btn-primary" style="padding: 10px 32px;">Got it!</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Leaderboard Modal -->
     <div id="leaderboard-modal" class="modal hidden">
       <div class="modal-content">
