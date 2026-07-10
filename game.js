@@ -26,6 +26,7 @@ const countrySelect = document.getElementById('country-select');
 const submitSection = document.getElementById('submit-section');
 const leaderboardSection = document.getElementById('leaderboard-section');
 const leaderboardList = document.getElementById('leaderboard-list');
+const globalTriesCount = document.getElementById('global-tries-count');
 
 if (typeof COUNTRIES !== 'undefined') {
   countrySelect.innerHTML = '';
@@ -585,6 +586,9 @@ function loseLife(reason) {
   updateHud();
 
   if (gameState.lives <= 0) {
+    if (window.incrementGlobalTries) {
+      window.incrementGlobalTries();
+    }
     bgMusic.pause();
     vikingWinsAudio.currentTime = 0;
     vikingWinsAudio.play().catch(e => console.warn('Audio playback prevented:', e));
@@ -813,6 +817,11 @@ function isClickOnOpponentGoal(x, y) {
 }
 
 function handleCanvasClick(event) {
+  if (gameState.status === 'levelSplash') {
+    gameState.status = 'playing';
+    return;
+  }
+
   if (isInputLocked()) return;
 
   const rect = canvas.getBoundingClientRect();
@@ -1491,7 +1500,7 @@ function drawLevelSplash() {
   // Press Enter prompt
   ctx.fillStyle = '#58a6ff';
   ctx.font = 'bold 18px "Segoe UI", sans-serif';
-  ctx.fillText('Press ENTER to Continue', cx, cy + 155);
+  ctx.fillText('Press ENTER or Click to Continue', cx, cy + 155);
 }
 
 // ─── Drawing: Game Over Screen ───────────────────────────────────────────────
@@ -1812,3 +1821,10 @@ async function showLeaderboard() {
 }
 
 init();
+
+// Initialize global tries subscription
+if (window.subscribeToGlobalTries && globalTriesCount) {
+  window.subscribeToGlobalTries((tries) => {
+    globalTriesCount.textContent = tries.toLocaleString();
+  });
+}

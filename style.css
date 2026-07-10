@@ -58,6 +58,13 @@ kbd {
   color: #c9d1d9;
 }
 
+.global-stats {
+  font-size: 0.8rem;
+  color: #58a6ff;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
 #hud {
   display: flex;
   gap: 16px;

@@ -1,5 +1,7 @@
 # The Viking Project
 
+[Play the game here!](https://hkapur.github.io/the-viking-project/)
+
 **The world has been invaded by a relentless, football-crazed Viking.**
 He is stealing the joy of the beautiful game, and chaos has spread across the globe. You are humanity's last hope. You must lead your team through an intense global tournament, facing off against 10 nations and outsmarting the Viking to restore peace to the world!
 

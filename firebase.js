@@ -52,3 +52,29 @@ window.fetchLeaderboard = async function () {
     return [];
   }
 }
+
+window.incrementGlobalTries = async function () {
+  if (!db) return;
+  try {
+    const docRef = db.collection("stats").doc("global");
+    await docRef.set({
+      totalTries: firebase.firestore.FieldValue.increment(1)
+    }, { merge: true });
+  } catch (e) {
+    console.error("Error incrementing global tries: ", e);
+  }
+}
+
+window.subscribeToGlobalTries = function (callback) {
+  if (!db) return () => {};
+  try {
+    return db.collection("stats").doc("global").onSnapshot((doc) => {
+      if (doc.exists) {
+        callback(doc.data().totalTries || 0);
+      }
+    });
+  } catch (e) {
+    console.error("Error subscribing to global tries: ", e);
+    return () => {};
+  }
+}
