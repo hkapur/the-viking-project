@@ -1512,6 +1512,19 @@ function drawGameOverScreen() {
   ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
   const cx = CANVAS_W / 2;
+
+  if (gameOverVideo.readyState >= 2) {
+    const vWidth = PITCH.width;
+    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 450;
+    // Center it vertically and slightly lower
+    const videoY = CANVAS_H / 2 - vHeight / 2 + 40;
+    
+    ctx.save();
+    ctx.globalAlpha = 0.6; // Slightly dim so text remains readable
+    ctx.drawImage(gameOverVideo, cx - vWidth / 2, videoY, vWidth, vHeight);
+    ctx.restore();
+  }
+
   let y = CANVAS_H / 2 - 120;
 
   // Skull art
@@ -1553,13 +1566,6 @@ function drawGameOverScreen() {
   ctx.fillStyle = '#58a6ff';
   ctx.font = 'bold 18px "Segoe UI", sans-serif';
   ctx.fillText('Press R to Restart', cx, y);
-  y += 30;
-
-  if (gameOverVideo.readyState >= 2) {
-    const vWidth = PITCH.width;
-    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 450;
-    ctx.drawImage(gameOverVideo, cx - vWidth / 2, y, vWidth, vHeight);
-  }
 }
 
 // ─── Drawing: Victory Screen ─────────────────────────────────────────────────
