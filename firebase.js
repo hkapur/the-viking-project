@@ -71,7 +71,12 @@ window.subscribeToGlobalTries = function (callback) {
     return db.collection("stats").doc("global").onSnapshot((doc) => {
       if (doc.exists) {
         callback(doc.data().totalTries || 0);
+      } else {
+        callback(0);
       }
+    }, (error) => {
+      console.error("Error listening to global tries (possibly Firestore rules?): ", error);
+      callback("Error");
     });
   } catch (e) {
     console.error("Error subscribing to global tries: ", e);
