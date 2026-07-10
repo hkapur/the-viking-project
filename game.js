@@ -1525,6 +1525,13 @@ function drawGameOverScreen() {
 
   let y = CANVAS_H / 2 - 120;
 
+  // Add a drop shadow to make text pop over the video
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
+
   // Skull art
   ctx.font = '64px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
   ctx.textAlign = 'center';
@@ -1533,20 +1540,20 @@ function drawGameOverScreen() {
   y += 60;
 
   // GAME OVER title
-  ctx.fillStyle = '#f85149';
+  ctx.fillStyle = '#ff6b6b';
   ctx.font = 'bold 48px "Segoe UI", sans-serif';
   ctx.fillText('GAME OVER', cx, y);
   y += 40;
 
   // Subtitle
-  ctx.fillStyle = '#8b949e';
-  ctx.font = '18px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 20px "Segoe UI", sans-serif';
   ctx.fillText('The Viking claims victory!', cx, y);
   y += 50;
 
   // Stats
-  ctx.fillStyle = '#c9d1d9';
-  ctx.font = '16px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 18px "Segoe UI", sans-serif';
   const nation = NATIONS[gameState.level - 1];
   const text = `Reached: Round ${gameState.level} — ${nation.name}`;
   ctx.fillText(text, cx, y);
@@ -1561,9 +1568,11 @@ function drawGameOverScreen() {
   y += 50;
 
   // Restart prompt
-  ctx.fillStyle = '#58a6ff';
-  ctx.font = 'bold 18px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#79c0ff';
+  ctx.font = 'bold 20px "Segoe UI", sans-serif';
   ctx.fillText('Press R to Restart', cx, y);
+
+  ctx.restore();
 }
 
 // ─── Drawing: Victory Screen ─────────────────────────────────────────────────
