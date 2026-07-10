@@ -130,6 +130,12 @@ const whistleAudio = new Audio('resources/music/Whistle.m4a');
 const vikingWinsAudio = new Audio('resources/music/Viking_Wins.m4a');
 vikingWinsAudio.loop = true;
 
+/** Preload Game Over Video */
+const gameOverVideo = document.createElement('video');
+gameOverVideo.src = 'resources/videos/Viking_Row.mp4';
+gameOverVideo.loop = true;
+gameOverVideo.muted = true;
+
 /** Preload Winning Music */
 const winningMusicAudio = new Audio('resources/music/Winning_Music.m4a');
 winningMusicAudio.loop = true;
@@ -468,6 +474,7 @@ function togglePause() {
 function restartGame() {
   vikingWinsAudio.pause();
   winningMusicAudio.pause();
+  gameOverVideo.pause();
   bgMusic.currentTime = 0;
   bgMusic.play().catch(e => console.warn('Audio playback prevented:', e));
   gameState.status = 'playing';
@@ -593,6 +600,8 @@ function loseLife(reason) {
     bgMusic.pause();
     vikingWinsAudio.currentTime = 0;
     vikingWinsAudio.play().catch(e => console.warn('Audio playback prevented:', e));
+    gameOverVideo.currentTime = 0;
+    gameOverVideo.play().catch(e => console.warn('Video playback prevented:', e));
     gameState.status = 'gameOver';
     hideMessage();
     updateControlButtons();
@@ -1544,6 +1553,13 @@ function drawGameOverScreen() {
   ctx.fillStyle = '#58a6ff';
   ctx.font = 'bold 18px "Segoe UI", sans-serif';
   ctx.fillText('Press R to Restart', cx, y);
+  y += 30;
+
+  if (gameOverVideo.readyState >= 2) {
+    const vWidth = 320;
+    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 180;
+    ctx.drawImage(gameOverVideo, cx - vWidth / 2, y, vWidth, vHeight);
+  }
 }
 
 // ─── Drawing: Victory Screen ─────────────────────────────────────────────────
