@@ -604,7 +604,7 @@ function loseLife(reason) {
       submitSection.classList.add('hidden');
       leaderboardSection.classList.remove('hidden');
       showLeaderboard();
-    }, 2000);
+    }, 5000);
 
     return;
   }
