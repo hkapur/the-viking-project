@@ -1515,13 +1515,11 @@ function drawGameOverScreen() {
 
   if (gameOverVideo.readyState >= 2) {
     const vWidth = PITCH.width;
-    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 450;
-    // Center it vertically and slightly lower
-    const videoY = CANVAS_H / 2 - vHeight / 2 + 40;
+    const vHeight = PITCH.height;
     
     ctx.save();
     ctx.globalAlpha = 0.6; // Slightly dim so text remains readable
-    ctx.drawImage(gameOverVideo, cx - vWidth / 2, videoY, vWidth, vHeight);
+    ctx.drawImage(gameOverVideo, PITCH.x, PITCH.y, vWidth, vHeight);
     ctx.restore();
   }
 
