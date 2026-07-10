@@ -1556,8 +1556,8 @@ function drawGameOverScreen() {
   y += 30;
 
   if (gameOverVideo.readyState >= 2) {
-    const vWidth = 320;
-    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 180;
+    const vWidth = PITCH.width;
+    const vHeight = (gameOverVideo.videoHeight / gameOverVideo.videoWidth) * vWidth || 450;
     ctx.drawImage(gameOverVideo, cx - vWidth / 2, y, vWidth, vHeight);
   }
 }
