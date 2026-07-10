@@ -13,6 +13,7 @@ const messageOverlay = document.getElementById('message-overlay');
 const messageText = document.getElementById('message-text');
 const btnStart = document.getElementById('btn-start');
 const btnRules = document.getElementById('btn-rules');
+const btnLeaderboard = document.getElementById('btn-leaderboard');
 const rulesModal = document.getElementById('rules-modal');
 const btnCloseRules = document.getElementById('btn-close-rules');
 const btnPause = document.getElementById('btn-pause');
@@ -596,15 +597,7 @@ function loseLife(reason) {
     hideMessage();
     updateControlButtons();
 
-    // Show Leaderboard Modal after a short delay
-    setTimeout(() => {
-      modalTitle.textContent = 'Global Leaderboard';
-      modalTitle.style.color = '#58a6ff';
-      leaderboardModal.classList.remove('hidden');
-      submitSection.classList.add('hidden');
-      leaderboardSection.classList.remove('hidden');
-      showLeaderboard();
-    }, 5000);
+
 
     return;
   }
@@ -1758,6 +1751,14 @@ function init() {
   btnStart.addEventListener('click', startGame);
   btnRules.addEventListener('click', () => {
     rulesModal.classList.remove('hidden');
+  });
+  btnLeaderboard.addEventListener('click', () => {
+    modalTitle.textContent = 'Global Leaderboard';
+    modalTitle.style.color = '#58a6ff';
+    leaderboardModal.classList.remove('hidden');
+    submitSection.classList.add('hidden');
+    leaderboardSection.classList.remove('hidden');
+    showLeaderboard();
   });
   btnCloseRules.addEventListener('click', () => {
     rulesModal.classList.add('hidden');
