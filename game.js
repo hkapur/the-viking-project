@@ -1038,12 +1038,10 @@ function updateViking(dt) {
 }
 
 function checkVikingCollision() {
-  const carrier = getPlayer(gameState.ball.carrierId);
-  if (!carrier) return;
-
-  const { viking } = gameState;
-  const dist = Math.hypot(carrier.x - viking.x, carrier.y - viking.y);
-  const hitRadius = viking.radius + PLAYER_RADIUS - 4;
+  const { viking, ball } = gameState;
+  
+  const dist = Math.hypot(ball.x - viking.x, ball.y - viking.y);
+  const hitRadius = viking.radius + ball.radius;
 
   if (dist <= hitRadius) {
     onVikingHit();
