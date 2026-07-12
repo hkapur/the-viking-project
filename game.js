@@ -1039,12 +1039,24 @@ function updateViking(dt) {
 
 function checkVikingCollision() {
   const { viking, ball } = gameState;
-  
+
   const dist = Math.hypot(ball.x - viking.x, ball.y - viking.y);
   const hitRadius = viking.radius + ball.radius;
 
   if (dist <= hitRadius) {
     onVikingHit();
+  }
+}
+
+function checkDefenderCollision() {
+  const { ball, enemyDefenders } = gameState;
+  for (const def of enemyDefenders) {
+    const dist = Math.hypot(ball.x - def.x, ball.y - def.y);
+    const hitRadius = def.radius + ball.radius;
+    if (dist <= hitRadius) {
+      onPassFailed('Defender got the ball!');
+      return;
+    }
   }
 }
 
@@ -1096,6 +1108,7 @@ function update(dt) {
   updateViking(dt);
   updateEnemyDefenders(dt);
   checkVikingCollision();
+  checkDefenderCollision();
 }
 
 // ─── Drawing: Pitch ──────────────────────────────────────────────────────────
@@ -1514,7 +1527,7 @@ function drawGameOverScreen() {
   if (gameOverVideo.readyState >= 2) {
     const vWidth = PITCH.width;
     const vHeight = PITCH.height;
-    
+
     ctx.save();
     ctx.globalAlpha = 0.6; // Slightly dim so text remains readable
     ctx.drawImage(gameOverVideo, PITCH.x, PITCH.y, vWidth, vHeight);
